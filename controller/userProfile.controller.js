@@ -10,9 +10,13 @@ const userProfileMy= async (req,res)=>{
             raw: true,
             where: {userId: req.session.ID}
         })
+        const user = await User.findAll({
+            raw: true,
+            where: {id: req.session.ID}
+        })
         res.render('user/profile',{
-            title: req.session.user.username,
-            user: req.session.user[0],
+            title: user[0].username,
+            user: user[0],
             diarySize: diary.length,
             isAuth: req.session.isAuth
         })
@@ -25,10 +29,13 @@ const userProfileMy= async (req,res)=>{
 // Route   GET   /user/pageupdate
 const updateProfilePage = async (req,res)=>{
     try {
-        console.log(req.session.user)
+        const user = await User.findAll({
+            raw: true,
+            where: {id: req.session.ID}
+        })
         res.render('user/updateProfile',{
             title: "Update Profile",
-            data: req.session.user[0],
+            data: user[0],
             isAuth: req.session.isAuth
         })
     } catch (error) {
@@ -40,26 +47,28 @@ const updateProfilePage = async (req,res)=>{
 // Route   POST    /user/update
 const  updateProfile = async (req,res)=>{
     try {
-    await User.update(
-        {email: req.body.email, name: req.body.username}, 
-        {where: {id: req.session.ID}, 
-    })
-    const user = await User.findAll({
-        raw: true,
-        where: {id: req.session.ID}
-    })
-      req.session.user=user
-      req.session.save((err)=>{
-        if(err) throw err
-        res.redirect('/user/profile/my')
-      })
-      
+        const userEmail = await User.findAll({
+            raw: true,
+            where: {email: req.body.email}
+        })
+        console.log(userEmail)
+        if (!userEmail[0]) {
+            await User.update(  {email: req.body.email, username: req.body.name}, {where: {id: req.session.ID}, })
+            
+            const user = await User.findAll({  raw: true,   where: {id: req.session.ID}  })
+
+            req.session.user=user[0]
+
+            req.session.save((err)=>{  if(err) throw err;  return  res.redirect('/user/profile/my')    }) 
+        } 
+        else {
+           return res.redirect('/user/pageupdate')
+        }  
     } catch (error) {
         console.log(error)
     }
 }
 
- 
 module.exports={
     userProfileMy,
     updateProfilePage,
