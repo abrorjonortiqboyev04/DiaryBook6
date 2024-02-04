@@ -1,0 +1,18 @@
+<div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-3">
+        <div class="card mt-3">
+          <div class="card-body">
+            <form action="/diary/edit/{{data.id}}" method="post">
+              <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" name="text" rows="4">{{data.text}}</textarea>
+              </div>
+              <img src="{{data.imgUrl}}" class="card-img-bottom" alt="Rasm...">
+              <button type="submit" class="btn btn-primary my-3">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,58 @@
+<div class="container">
+
+
+    <div class="row">
+      <div class="col-md-6 offset-3">
+        <div class="card mt-3">
+          <div class="card-body">
+            <form action="/diary/add" method="post">
+              <div class="mb-3">
+                <label for="formFile" class="form-label">Img URL</label>
+                <input class="form-control" type="text" name="imgUrl" id="formFile">
+              </div>
+              <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">Nima haqida yozamiz? </label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" name="text" rows="4"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Save </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{{#if data}}
+  {{#each data}}
+        <div class="row">
+        <div class="col-md-6 offset-3">
+            <div class="card mb-5 mt-5">
+            <div class="card-body">
+                <div class="list-group mb-1">
+                <a href="#" class="list-group-item list-group-item-action">        
+                    <img src="https://img.freepik.com/premium-vector/bearded-man-avatar-man-vector-portrait_9385-36.jpg" class="rounded-circle float-start" style="height: 30px;" alt="...">
+                    <h5 class="card-title">{{username}}</h5>
+                </a>
+                </div>
+                <p class="card-text">{{text}}</p>
+                <p class="card-text"><small class="text-muted">{{createdAt}}</small></p>
+            </div>
+            {{#if imgUrl}}
+                <img src="{{imgUrl}}" class="card-img-bottom" alt="...">
+            {{/if}} 
+            <div class="card-footer">
+                <a href="/diary/open/{{id}}" type="button" class="btn btn-success">Open</a>
+                <a href="/diary/update/{{id}}" type="button" class="btn btn-primary">Update</a>
+                <a href="/diary/delete/{{id}}" type="button" class="btn btn-danger">Delete</a>
+            </div>
+            </div>
+        </div>
+        </div>
+  {{/each}}
+ {{else}}
+     <h1 style="text-align: center; pading: 10px ">Not diary</h1>
+{{/if}}
+
+    
+
+
+</div>
